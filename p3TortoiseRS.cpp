@@ -18,7 +18,7 @@
 #include "p3TortoiseRS.h"
 
 #include "pqi/p3linkmgr.h"
-#include "retroshare/rstortoise.h"
+#include "retroshare/rsturtle.h"
 
 #include <iostream>
 
@@ -32,8 +32,8 @@ p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
 {
     addSerialType(new TortoiseSerialiser());
     pgHandler->getLinkMgr()->addMonitor( this );
-    rsTortoise->registerTunnelService(this);
-    rsTortoise->monitorTunnels( "Foobar", this ) ;
+    rsTurtle->registerTunnelService(this);
+    rsTurtle->monitorTunnels( "Foobar", this ) ;
 }
 
 
@@ -76,21 +76,21 @@ void p3TortoiseRS::handleTortoiseItem( TortoiseItem * item )
 
 
 
-void p3TortoiseRS::addVirtualPeer(const TortoiseFileHash& hash,const TortoiseVirtualPeerId& virtual_peer_id,RsTortoiseGenericTunnelItem::Direction dir)
+void p3TortoiseRS::addVirtualPeer(const TurtleFileHash& hash,const TurtleVirtualPeerId& virtual_peer_id,RsTurtleGenericTunnelItem::Direction dir)
 {
     std::cerr << "Tortoise:  Adding virtual peer " << std::endl;
 }
 
 
 
-void p3TortoiseRS::removeVirtualPeer(const TortoiseFileHash& hash,const TortoiseVirtualPeerId& virtual_peer_id)
+void p3TortoiseRS::removeVirtualPeer(const TurtleFileHash& hash,const TurtleVirtualPeerId& virtual_peer_id)
 {
     std::cerr << "Tortoise:  Removing virtual peer " << std::endl;
 }
 
-void p3TortoiseRS::receiveTortoiseData(RsTortoiseGenericTunnelItem */*item*/,const std::string& /*hash*/,const std::string& /*virtual_peer_id*/,RsTortoiseGenericTunnelItem::Direction /*direction*/)
+void p3TortoiseRS::receiveTurtleData(RsTurtleGenericTunnelItem */*item*/,const std::string& /*hash*/,const std::string& /*virtual_peer_id*/,RsTurtleGenericTunnelItem::Direction /*direction*/)
 {
-    std::cerr << "Tortoise:  Received Data from tortoise router" << std::endl;
+    std::cerr << "Tortoise:  Received Data from Turtle router" << std::endl;
 }
 
 bool p3TortoiseRS::handleTunnelRequest(const std::string & hash, const std::string & peer_id)
