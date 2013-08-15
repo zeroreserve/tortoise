@@ -21,9 +21,12 @@
 #include "retroshare/rsturtle.h"
 
 #include <iostream>
+#include <sstream>
 
-// after getting data from 3 peers, we believe we're complete
-static const int INIT_THRESHOLD = 3;
+#include <unistd.h>
+#include <sys/types.h>
+
+
 
 p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
         RsPQIService( RS_SERVICE_TYPE_TORTOISE_PLUGIN, CONFIG_TYPE_TORTOISE_PLUGIN, 0, pgHandler ),
@@ -33,7 +36,9 @@ p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
     addSerialType(new TortoiseSerialiser());
     pgHandler->getLinkMgr()->addMonitor( this );
     rsTurtle->registerTunnelService(this);
-    rsTurtle->monitorTunnels( "Foobar", this ) ;
+    std::ostringstream hash;
+    hash << "FooBar" << getuid();
+    rsTurtle->monitorTunnels( hash.str(), this ) ;
 }
 
 
