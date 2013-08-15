@@ -37,7 +37,9 @@ p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
     pgHandler->getLinkMgr()->addMonitor( this );
     rsTurtle->registerTunnelService(this);
     std::ostringstream hash;
-    hash << "FooBar" << getuid();
+    char hostname[50];
+    gethostname( hostname, 50 );
+    hash << "FooBar: " << hostname << " : " << getuid();
     rsTurtle->monitorTunnels( hash.str(), this ) ;
 }
 
