@@ -39,7 +39,9 @@ p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
     std::ostringstream hash;
     char hostname[50];
     gethostname( hostname, 50 );
-    hash << "FooBar: " << hostname << " : " << getuid();
+    // this isn't really a hash, of course: In this example it allows reading the output, however.
+    // use actual hashes in production code
+    hash << "Tortoise:" << hostname << ":" << getuid();
     rsTurtle->monitorTunnels( hash.str(), this ) ;
 }
 
@@ -82,26 +84,34 @@ void p3TortoiseRS::handleTortoiseItem( TortoiseItem * item )
 }
 
 
+// turtle stuff
 
 void p3TortoiseRS::addVirtualPeer(const TurtleFileHash& hash,const TurtleVirtualPeerId& virtual_peer_id,RsTurtleGenericTunnelItem::Direction dir)
 {
-    std::cerr << "Tortoise:  Adding virtual peer " << std::endl;
+    std::cerr << "Tortoise:  Adding virtual peer " << virtual_peer_id << " for hash " << hash << "  --  Direction " << dir << std::endl;
 }
 
 
 
 void p3TortoiseRS::removeVirtualPeer(const TurtleFileHash& hash,const TurtleVirtualPeerId& virtual_peer_id)
 {
-    std::cerr << "Tortoise:  Removing virtual peer " << std::endl;
+    std::cerr << "Tortoise:  Removing virtual peer " << virtual_peer_id << " for hash " << hash << std::endl;
 }
 
-void p3TortoiseRS::receiveTurtleData(RsTurtleGenericTunnelItem */*item*/,const std::string& /*hash*/,const std::string& /*virtual_peer_id*/,RsTurtleGenericTunnelItem::Direction /*direction*/)
+void p3TortoiseRS::receiveTurtleData(RsTurtleGenericTunnelItem * item,const std::string& /*hash*/,const std::string& /*virtual_peer_id*/,RsTurtleGenericTunnelItem::Direction /*direction*/)
 {
     std::cerr << "Tortoise:  Received Data from Turtle router" << std::endl;
+    item->print( std::cerr );
 }
 
 bool p3TortoiseRS::handleTunnelRequest(const std::string & hash, const std::string & peer_id)
 {
-    std::cerr << "Tortoise: handling tunnel request hash: " << hash << " ID: " << peer_id << std::endl;
-    return false;
+    if( hash.substr( 0, 8 ) == "Tortoise" ){
+        std::cerr << "Tortoise: handling tunnel request hash: " << hash << " -- ID: " << peer_id << std::endl;
+        return true;
+    }
+    else{
+        std::cerr << "Tortoise: NOT handling tunnel request hash: " << hash << " -- ID: " << peer_id << std::endl;
+        return false;
+    }
 }
