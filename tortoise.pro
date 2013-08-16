@@ -11,8 +11,6 @@ SOURCES = \
     TortoiseDialog.cpp \
     TortoisePlugin.cpp
 
-LIBS += -lsqlite3
-
 DEFINES += ZR_TESTNET
 
 HEADERS = \

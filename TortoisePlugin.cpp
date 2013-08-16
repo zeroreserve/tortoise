@@ -59,7 +59,7 @@ void TortoisePlugin::setInterfaces(RsPlugInInterfaces &interfaces)
 MainPage *TortoisePlugin::qt_page() const
 {
     if(mainpage == NULL){
-        mainpage = new TortoiseDialog( );
+        mainpage = new TortoiseDialog( m_Tortoise );
     }
 
     return mainpage ;

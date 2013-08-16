@@ -6,18 +6,23 @@
 
 #include "retroshare-gui/mainpage.h"
 
+class p3TortoiseRS;
 
 class TortoiseDialog : public MainPage
 {
     Q_OBJECT
 
 public:
-    TortoiseDialog( QWidget *parent = 0 );
+    TortoiseDialog( p3TortoiseRS *tortoiseRS, QWidget *parent = 0 );
 
+protected slots:
+    void addMonitor();
+    void setListener();
 
 private:
 
     Ui::TortoiseDialog ui;
+    p3TortoiseRS * m_Tortoise;
 
 };
 

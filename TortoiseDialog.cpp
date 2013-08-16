@@ -1,6 +1,7 @@
 
 
 #include "TortoiseDialog.h"
+#include "p3TortoiseRS.h"
 
 #include <QMenu>
 #include <QStandardItem>
@@ -10,9 +11,24 @@
 #define IMAGE_FRIENDINFO ":/images/peerdetails_16x16.png"
 
 
-TortoiseDialog::TortoiseDialog( QWidget *parent )
-: MainPage(parent)
+TortoiseDialog::TortoiseDialog(p3TortoiseRS * tortoiseRS , QWidget *parent)
+    : MainPage(parent),
+      m_Tortoise( tortoiseRS )
 {
     ui.setupUi(this);
+
+    connect( ui.clientHashButton, SIGNAL(clicked()), this, SLOT(addMonitor()) );
+    connect( ui.serverHashButton, SIGNAL(clicked()), this, SLOT(setListener()) );
+
+}
+
+
+void TortoiseDialog::addMonitor()
+{
+    m_Tortoise->addMonitor( ui.clientHash->text().toStdString() );
+}
+
+void TortoiseDialog::setListener()
+{
 
 }

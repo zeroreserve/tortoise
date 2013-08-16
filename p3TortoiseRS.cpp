@@ -30,11 +30,9 @@
 
 p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
         RsPQIService( RS_SERVICE_TYPE_TORTOISE_PLUGIN, CONFIG_TYPE_TORTOISE_PLUGIN, 0, pgHandler ),
-
         m_peers(peers)
 {
     addSerialType(new TortoiseSerialiser());
-    pgHandler->getLinkMgr()->addMonitor( this );
     rsTurtle->registerTunnelService(this);
     std::ostringstream hash;
     char hostname[50];
@@ -46,18 +44,16 @@ p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
 }
 
 
-void p3TortoiseRS::statusChange(const std::list< pqipeer > &plist)
+void p3TortoiseRS::addMonitor(const std::string & hash )
 {
-    std::cerr << "Tortoise: Status changed:" << std::endl;
-
-    for (std::list< pqipeer >::const_iterator peerIt = plist.begin(); peerIt != plist.end(); peerIt++ ){
-        if( RS_PEER_CONNECTED & (*peerIt).actions ){
-            TortoiseItem * item = new TortoiseItem();
-            item->PeerId( (*peerIt).id );
-            sendItem( item );
-        }
-    }
+    rsTurtle->monitorTunnels( hash, this ) ;
 }
+
+void p3TortoiseRS::setListener(const std::string & hash )
+{
+    m_hash = hash;
+}
+
 
 
 int p3TortoiseRS::tick()
@@ -84,7 +80,6 @@ void p3TortoiseRS::handleTortoiseItem( TortoiseItem * item )
 }
 
 
-// turtle stuff
 
 void p3TortoiseRS::addVirtualPeer(const TurtleFileHash& hash,const TurtleVirtualPeerId& virtual_peer_id,RsTurtleGenericTunnelItem::Direction dir)
 {
