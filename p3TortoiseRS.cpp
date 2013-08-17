@@ -23,10 +23,6 @@
 #include <iostream>
 #include <sstream>
 
-#include <unistd.h>
-#include <sys/types.h>
-
-
 
 p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
         RsPQIService( RS_SERVICE_TYPE_TORTOISE_PLUGIN, CONFIG_TYPE_TORTOISE_PLUGIN, 0, pgHandler ),
