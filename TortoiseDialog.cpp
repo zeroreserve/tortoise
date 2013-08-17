@@ -30,5 +30,5 @@ void TortoiseDialog::addMonitor()
 
 void TortoiseDialog::setListener()
 {
-
+    m_Tortoise->setListener( ui.serverHash->text().toStdString() );
 }

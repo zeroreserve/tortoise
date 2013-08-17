@@ -34,13 +34,7 @@ p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
 {
     addSerialType(new TortoiseSerialiser());
     rsTurtle->registerTunnelService(this);
-    std::ostringstream hash;
-    char hostname[50];
-    gethostname( hostname, 50 );
-    // this isn't really a hash, of course: In this example it allows reading the output, however.
-    // use actual hashes in production code
-    hash << "Tortoise:" << hostname << ":" << getuid();
-    rsTurtle->monitorTunnels( hash.str(), this ) ;
+    m_hash = "";
 }
 
 
@@ -101,7 +95,7 @@ void p3TortoiseRS::receiveTurtleData(RsTurtleGenericTunnelItem * item,const std:
 
 bool p3TortoiseRS::handleTunnelRequest(const std::string & hash, const std::string & peer_id)
 {
-    if( hash.substr( 0, 8 ) == "Tortoise" ){
+    if( hash == m_hash ){
         std::cerr << "Tortoise: handling tunnel request hash: " << hash << " -- ID: " << peer_id << std::endl;
         return true;
     }
