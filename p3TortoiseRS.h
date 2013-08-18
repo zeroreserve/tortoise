@@ -36,7 +36,9 @@ private:
     void handleTortoiseItem( TortoiseItem * item );
 
 private:
+    /** the hash the server is watchin out for */
     std::string m_hash;
+
     RsPeers * m_peers;
     p3turtle * m_Turtle;
 };

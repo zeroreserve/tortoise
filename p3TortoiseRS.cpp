@@ -22,7 +22,6 @@
 #include "retroshare/rsturtle.h"
 
 #include <iostream>
-#include <sstream>
 
 
 p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
@@ -72,6 +71,8 @@ void p3TortoiseRS::handleTortoiseItem( TortoiseItem * item )
 }
 
 
+// implemented from the Turtle interface
+
 
 void p3TortoiseRS::addVirtualPeer(const TurtleFileHash& hash,const TurtleVirtualPeerId& virtual_peer_id,RsTurtleGenericTunnelItem::Direction dir)
 {
@@ -86,6 +87,7 @@ void p3TortoiseRS::removeVirtualPeer(const TurtleFileHash& hash,const TurtleVirt
     std::cerr << "Tortoise:  Removing virtual peer " << virtual_peer_id << " for hash " << hash << std::endl;
 }
 
+
 void p3TortoiseRS::receiveTurtleData(RsTurtleGenericTunnelItem * item,const std::string& hash,const std::string & virtual_peer_id,RsTurtleGenericTunnelItem::Direction direction )
 {
     std::cerr << "Tortoise:  Received Data from Turtle router" << std::endl;
@@ -95,11 +97,11 @@ void p3TortoiseRS::receiveTurtleData(RsTurtleGenericTunnelItem * item,const std:
 bool p3TortoiseRS::handleTunnelRequest(const std::string & hash, const std::string & peer_id)
 {
     if( hash == m_hash ){
-        std::cerr << "Tortoise: handling tunnel request hash: " << hash << " -- ID: " << peer_id << std::endl;
+        std::cerr << "Tortoise: Handling tunnel request: hash: " << hash << " -- ID: " << peer_id << std::endl;
         return true;
     }
     else{
-        std::cerr << "Tortoise: NOT handling tunnel request hash: " << hash << " -- ID: " << peer_id << std::endl;
+        std::cerr << "Tortoise: NOT handling tunnel request: hash: " << hash << " -- ID: " << peer_id << std::endl;
         return false;
     }
 }
