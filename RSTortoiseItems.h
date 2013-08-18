@@ -2,6 +2,7 @@
 #define RSTORTOISEITEMS_H
 
 #include "serialiser/rsserial.h"
+#include "turtle/rsturtleitem.h"
 #include <string>
 
 
@@ -11,14 +12,14 @@ extern const uint16_t RS_SERVICE_TYPE_TORTOISE_PLUGIN;
 extern const uint32_t CONFIG_TYPE_TORTOISE_PLUGIN;
 
 
-class TortoiseItem: public RsItem
+class TortoiseItem: public RsTurtleGenericTunnelItem
 {
 public:
-    TortoiseItem( )
-        : RsItem( RS_PKT_VERSION_SERVICE,RS_SERVICE_TYPE_TORTOISE_PLUGIN, TORTOISE_ITEM )
+    TortoiseItem( const std::string & msg )
+        : RsTurtleGenericTunnelItem( TORTOISE_ITEM )
     {
         setPriorityLevel(QOS_PRIORITY_RS_TORTOISE);
-        m_msg = "Hello World";
+        m_msg = msg;
     }
     TortoiseItem(void *data, uint32_t pktsize);
 
@@ -30,9 +31,10 @@ public:
     virtual ~TortoiseItem() {};
     virtual void clear() {};
     virtual std::ostream& print(std::ostream &out, uint16_t indent = 0);
+    virtual bool shouldStampTunnel() const { return false; }
 
-    virtual bool serialise(void *data,uint32_t& size);
-    virtual uint32_t serial_size() const;
+    virtual bool serialize(void *data,uint32_t& size);
+    virtual uint32_t serial_size();
 
     const std::string & getMessage(){ return m_msg; }
 private:
@@ -56,7 +58,7 @@ public:
 
     virtual	bool serialise  (RsItem *item, void *data, uint32_t *size)
     {
-        return dynamic_cast<TortoiseItem *>(item)->serialise(data,*size) ;
+        return dynamic_cast<TortoiseItem *>(item)->serialize(data,*size) ;
     }
     virtual	RsItem *deserialise(void *data, uint32_t *size);
 };

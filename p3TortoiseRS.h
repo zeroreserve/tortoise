@@ -1,5 +1,3 @@
-
-
 #ifndef P3TORTOISERRS_H
 #define P3TORTOISERRS_H
 
@@ -10,6 +8,7 @@
 #include "plugins/rspqiservice.h"
 #include "pqi/pqimonitor.h"
 #include "turtle/turtleclientservice.h"
+#include "turtle/p3turtle.h"
 
 
 class RsPluginHandler;
@@ -26,8 +25,8 @@ public:
     // turtle functions
     virtual void addVirtualPeer(const TurtleFileHash& hash,const TurtleVirtualPeerId & virtual_peer_id,RsTurtleGenericTunnelItem::Direction dir);
     virtual void removeVirtualPeer(const TurtleFileHash& hash,const TurtleVirtualPeerId & virtual_peer_id);
-    virtual void receiveTurtleData(RsTurtleGenericTunnelItem */*item*/,const std::string& /*hash*/,const std::string& /*virtual_peer_id*/,RsTurtleGenericTunnelItem::Direction /*direction*/);
-    virtual bool handleTunnelRequest(const std::string& /*hash*/,const std::string& /*peer_id*/);
+    virtual void receiveTurtleData(RsTurtleGenericTunnelItem * item ,const std::string& hash,const std::string& virtual_peer_id,RsTurtleGenericTunnelItem::Direction direction);
+    virtual bool handleTunnelRequest(const std::string & hash,const std::string & peer_id);
 
     void addMonitor( const std::string & hash );
     void setListener(const std::string & hash );
@@ -39,6 +38,7 @@ private:
 private:
     std::string m_hash;
     RsPeers * m_peers;
+    p3turtle * m_Turtle;
 };
 
 #endif // P3TORTOISERRS_H

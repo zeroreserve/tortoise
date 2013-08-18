@@ -32,7 +32,7 @@ extern "C" {
 	uint32_t RETROSHARE_PLUGIN_api = RS_PLUGIN_API_VERSION ;
 }
 
-#define IMAGE_LINKS ":/images/bitcoin.png"
+#define IMAGE_LINKS ":/images/tortoise.png"
 
 void TortoisePlugin::getPluginVersion(int& major,int& minor,int& svn_rev) const
 {

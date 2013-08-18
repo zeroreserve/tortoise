@@ -43,52 +43,52 @@ RsItem* TortoiseSerialiser::deserialise(void *data, uint32_t *pktsize)
 
 std::ostream& TortoiseItem::print(std::ostream &out, uint16_t indent)
 {
-        printRsItemBase(out, "RsTortoiseItem", indent);
-        uint16_t int_Indent = indent + 2;
-        printIndent(out, int_Indent);
+    printRsItemBase(out, "RsTortoiseItem", indent);
+    uint16_t int_Indent = indent + 2;
+    printIndent(out, int_Indent);
 
-        out << "Message  : " << m_msg << std::endl;
+    out << "Message  : " << m_msg << std::endl;
 
-        printIndent(out, int_Indent);
-        printRsItemEnd(out, "RsTortoiseItem", indent);
-        return out;
+    printIndent(out, int_Indent);
+    printRsItemEnd(out, "RsTortoiseItem", indent);
+    return out;
 }
 
-uint32_t TortoiseItem::serial_size() const
+uint32_t TortoiseItem::serial_size()
 {
-        uint32_t s = 8; /* header */
-        s += m_msg.length() + HOLLERITH_LEN_SPEC; // strings need the length of the string + 32 bit to specify the length (Hollerith format)
+    uint32_t s = 8; /* header */
+    s += m_msg.length() + HOLLERITH_LEN_SPEC; // strings need the length of the string + 32 bit to specify the length (Hollerith format)
 
-        return s;
+    return s;
 }
 
-bool TortoiseItem::serialise(void *data, uint32_t& pktsize)
+bool TortoiseItem::serialize(void *data, uint32_t& pktsize)
 {
-        uint32_t tlvsize = serial_size() ;
+    uint32_t tlvsize = serial_size() ;
 
-        if (pktsize < tlvsize)
-                return false; /* not enough space */
+    if (pktsize < tlvsize)
+        return false; /* not enough space */
 
-        pktsize = tlvsize;
+    pktsize = tlvsize;
 
-        bool ok = true;
+    bool ok = true;
 
-        ok &= setRsItemHeader(data, tlvsize, PacketId(), tlvsize);
+    ok &= setRsItemHeader(data, tlvsize, PacketId(), tlvsize);
 
-        uint32_t offset = 8;  // skip header
+    uint32_t offset = 8;  // skip header
 
-        ok &= setRawString( data, tlvsize, &offset, m_msg );
+    ok &= setRawString( data, tlvsize, &offset, m_msg );
 
-        if (offset != tlvsize){
-                ok = false;
-                std::cerr << "RsTortoiseItem::serialise() Size Error! " << std::endl;
-        }
+    if (offset != tlvsize){
+        ok = false;
+        std::cerr << "RsTortoiseItem::serialise() Size Error! " << std::endl;
+    }
 
-        return ok;
+    return ok;
 }
 
 TortoiseItem::TortoiseItem(void *data, uint32_t pktsize)
-        : RsItem( RS_PKT_VERSION_SERVICE,RS_SERVICE_TYPE_TORTOISE_PLUGIN, TORTOISE_ITEM )
+        : RsTurtleGenericTunnelItem( TORTOISE_ITEM )
 {   
     /* get the type and size */
     uint32_t rstype = getRsItemId(data);

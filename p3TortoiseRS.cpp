@@ -16,6 +16,7 @@
 */
 
 #include "p3TortoiseRS.h"
+#include "RSTortoiseItems.h"
 
 #include "pqi/p3linkmgr.h"
 #include "retroshare/rsturtle.h"
@@ -31,6 +32,7 @@ p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
     addSerialType(new TortoiseSerialiser());
     rsTurtle->registerTunnelService(this);
     m_hash = "";
+    m_Turtle = static_cast< p3turtle* >( rsTurtle );
 }
 
 
@@ -74,6 +76,7 @@ void p3TortoiseRS::handleTortoiseItem( TortoiseItem * item )
 void p3TortoiseRS::addVirtualPeer(const TurtleFileHash& hash,const TurtleVirtualPeerId& virtual_peer_id,RsTurtleGenericTunnelItem::Direction dir)
 {
     std::cerr << "Tortoise:  Adding virtual peer " << virtual_peer_id << " for hash " << hash << "  --  Direction " << dir << std::endl;
+    m_Turtle->sendTurtleData( virtual_peer_id, new TortoiseItem( "Hello" ) );
 }
 
 
@@ -83,7 +86,7 @@ void p3TortoiseRS::removeVirtualPeer(const TurtleFileHash& hash,const TurtleVirt
     std::cerr << "Tortoise:  Removing virtual peer " << virtual_peer_id << " for hash " << hash << std::endl;
 }
 
-void p3TortoiseRS::receiveTurtleData(RsTurtleGenericTunnelItem * item,const std::string& /*hash*/,const std::string& /*virtual_peer_id*/,RsTurtleGenericTunnelItem::Direction /*direction*/)
+void p3TortoiseRS::receiveTurtleData(RsTurtleGenericTunnelItem * item,const std::string& hash,const std::string & virtual_peer_id,RsTurtleGenericTunnelItem::Direction direction )
 {
     std::cerr << "Tortoise:  Received Data from Turtle router" << std::endl;
     item->print( std::cerr );
