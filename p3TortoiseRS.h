@@ -32,9 +32,6 @@ public:
     void setListener(const std::string & hash );
     void sendMessage(const std::string & message );
 
-private:
-    void handleMessage( TortoiseItem *item );
-    void handleTortoiseItem( TortoiseItem * item );
 
 private:
     /** the hash the server is watchin out for */

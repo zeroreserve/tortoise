@@ -52,13 +52,6 @@ void p3TortoiseRS::sendMessage(const std::string & message )
     }
 }
 
-//////////////
-
-
-void p3TortoiseRS::handleTortoiseItem( TortoiseItem * item )
-{
-    std::cerr << "Tortoise: " << item->PeerId() << " said: " << item->getMessage() << std::endl;
-}
 
 
 // implemented from the Turtle interface
