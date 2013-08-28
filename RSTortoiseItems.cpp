@@ -6,38 +6,7 @@
 #include <stdexcept>
 
 
-const uint16_t RS_SERVICE_TYPE_TORTOISE_PLUGIN = 0xDEAD;       // gotta be unique among all plugins
-const uint32_t CONFIG_TYPE_TORTOISE_PLUGIN     = 0x0000BEEF;
-
-#define CURRENCY_STRLEN 3
 #define HOLLERITH_LEN_SPEC 4
-
-RsItem* TortoiseSerialiser::deserialise(void *data, uint32_t *pktsize)
-{
-    std::cerr << "Tortoise: deserialise()" << std::endl;
-
-    /* get the type and size */
-    uint32_t rstype = getRsItemId(data);
-
-    if ((RS_PKT_VERSION_SERVICE != getRsItemVersion(rstype)) || (RS_SERVICE_TYPE_TORTOISE_PLUGIN != getRsItemService(rstype)))
-        return NULL ;
-
-    try{
-        switch(getRsItemSubType(rstype))
-        {
-        case TortoiseItem::TORTOISE_ITEM:
-            return new TortoiseItem(data, *pktsize);
-        default:
-            return NULL;
-        }
-    }
-    catch(std::exception& e){
-        std::cerr << "RsTortoiseSerialiser: deserialization error: " << e.what() << std::endl;
-        return NULL;
-    }
-}
-
-
 
 
 
@@ -65,6 +34,7 @@ uint32_t TortoiseItem::serial_size()
 bool TortoiseItem::serialize(void *data, uint32_t& pktsize)
 {
     uint32_t tlvsize = serial_size() ;
+    std::cerr << "Tortoise: serialise() - Size = " << tlvsize << std::endl;
 
     if (pktsize < tlvsize)
         return false; /* not enough space */
@@ -90,15 +60,12 @@ bool TortoiseItem::serialize(void *data, uint32_t& pktsize)
 TortoiseItem::TortoiseItem(void *data, uint32_t pktsize)
         : RsTurtleGenericTunnelItem( TORTOISE_ITEM )
 {   
+    std::cerr << "Tortoise: constructing item - size = " << pktsize << std::endl;
     /* get the type and size */
     uint32_t rstype = getRsItemId(data);
     uint32_t rssize = getRsItemSize(data);
 
     uint32_t offset = 8;
-
-
-    if ((RS_PKT_VERSION_SERVICE != getRsItemVersion(rstype)) || (RS_SERVICE_TYPE_TORTOISE_PLUGIN != getRsItemService(rstype)) || (TORTOISE_ITEM != getRsItemSubType(rstype)))
-        throw std::runtime_error("Wrong packet type!") ;
 
     if (pktsize < rssize)    /* check size */
         throw std::runtime_error("Not enough size!") ;

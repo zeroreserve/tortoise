@@ -17,9 +17,9 @@ TortoiseDialog::TortoiseDialog(p3TortoiseRS * tortoiseRS , QWidget *parent)
 {
     ui.setupUi(this);
 
-    connect( ui.clientHashButton, SIGNAL(clicked()), this, SLOT(addMonitor()) );
-    connect( ui.serverHashButton, SIGNAL(clicked()), this, SLOT(setListener()) );
-
+    connect( ui.clientHashButton, SIGNAL( clicked() ), this, SLOT( addMonitor() ) );
+    connect( ui.serverHashButton, SIGNAL( clicked() ), this, SLOT( setListener() ) );
+    connect( ui.sendMessageButton, SIGNAL( clicked() ), this, SLOT( sendMessage() ) );
 }
 
 
@@ -31,4 +31,9 @@ void TortoiseDialog::addMonitor()
 void TortoiseDialog::setListener()
 {
     m_Tortoise->setListener( ui.serverHash->text().toStdString() );
+}
+
+void TortoiseDialog::sendMessage()
+{
+    m_Tortoise->sendMessage( ui.message->text().toStdString() );
 }

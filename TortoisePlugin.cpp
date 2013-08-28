@@ -89,7 +89,9 @@ RsPQIService * TortoisePlugin::rs_pqi_service() const
         m_Tortoise = new p3TortoiseRS(mPlugInHandler, m_peers ) ;
     }
 
-    return m_Tortoise ;
+    // this should normally return the new pqi service, but our Tortoise is not derived from RsPQIService
+    // creating the object here, anyway.
+    return NULL;
 }
 
 std::string TortoisePlugin::getShortPluginDescription() const

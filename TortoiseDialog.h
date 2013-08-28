@@ -18,6 +18,8 @@ public:
 protected slots:
     void addMonitor();
     void setListener();
+    void sendMessage();
+
 
 private:
 
