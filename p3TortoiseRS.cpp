@@ -104,11 +104,7 @@ RsTurtleGenericTunnelItem * p3TortoiseRS::deserialiseItem(void * data, uint32_t 
         switch(getRsItemSubType(rstype))
         {
         case TortoiseItem::TORTOISE_ITEM:
-        {
-             TortoiseItem * tortoiseItem = new TortoiseItem(data, pktsize);
-             tortoiseItem->print( std::cerr );
-             return tortoiseItem;
-        }
+             return new TortoiseItem(data, pktsize);
         default:
             return NULL;
         }
