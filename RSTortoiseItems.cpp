@@ -47,9 +47,10 @@ bool TortoiseItem::serialize(void *data, uint32_t& pktsize)
 
     uint32_t offset = 8;  // skip header
 
+    // one of a set of utility functions to help with serialization
     ok &= setRawString( data, tlvsize, &offset, m_msg );
 
-    if (offset != tlvsize){
+    if (offset != tlvsize){  // that should never happen
         ok = false;
         std::cerr << "RsTortoiseItem::serialise() Size Error! " << std::endl;
     }
@@ -72,7 +73,7 @@ TortoiseItem::TortoiseItem(void *data, uint32_t pktsize)
 
     bool ok = true;
 
-
+    // must correspond to the setRawString() above
     ok &= getRawString(data, rssize, &offset, m_msg );
 
     if (offset != rssize || !ok )

@@ -18,7 +18,7 @@ class RsPeers;
 class p3TortoiseRS : public RsTurtleClientService  // the interface of the turtle router
 {
 public:
-    p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers);
+    p3TortoiseRS(RsPluginHandler *, RsPeers*);
 
     // turtle functions
     virtual void addVirtualPeer(const TurtleFileHash& hash,const TurtleVirtualPeerId & virtual_peer_id,RsTurtleGenericTunnelItem::Direction dir);
@@ -27,7 +27,7 @@ public:
     virtual bool handleTunnelRequest(const std::string & hash,const std::string & peer_id);
     virtual RsTurtleGenericTunnelItem *deserialiseItem(void * data, uint32_t pktsize) const;
 
-
+    // calls from the GUI
     void addMonitor( const std::string & hash );
     void setListener(const std::string & hash );
     void sendMessage(const std::string & message );
@@ -36,9 +36,9 @@ public:
 private:
     /** the hash the server is watchin out for */
     std::string m_hash;
+    /** list of current virtual peers */
     std::set< std::string > m_vPeerList;
 
-    RsPeers * m_peers;
     p3turtle * m_Turtle;
 };
 

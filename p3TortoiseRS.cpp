@@ -24,13 +24,16 @@
 #include <iostream>
 
 
-p3TortoiseRS::p3TortoiseRS(RsPluginHandler *pgHandler, RsPeers* peers ) :
-        m_peers(peers)
+p3TortoiseRS::p3TortoiseRS(RsPluginHandler *, RsPeers*  )
 {
     m_hash = "";
     m_Turtle = static_cast< p3turtle* >( rsTurtle );
+    // register with the router so it can call the 5 functions from the RsTurtleClientService interface
     m_Turtle->registerTunnelService(this);
 }
+
+
+// the following 3 methods are called from TortoiseDialog to set the roles
 
 
 void p3TortoiseRS::addMonitor(const std::string & hash )
